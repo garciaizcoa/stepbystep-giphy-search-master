@@ -19,10 +19,24 @@ import getSearchResults from "./get-search-results";
 //     return 
 
 // })
+//TODO: 
+// create the markup as a string or an HTML Element 
+// for all of the result thumbs from get-search-results
+// Add to search-results div 
+// HTML THUMBS <a href="#">
+       // <img src="placeholder.png" />
+       // </a>
+const makeSearchResult = searchResult => `
+<a href="#">
+    <img src="${searchResult.thumb}" />
+</a>
+`;
 export const handleSearch = async searchTerm => {
     const searchResults = document.getElementById('search-results');
     searchResults.innerHTML = '<img src="loader.gif" />';
-    await getSearchResults(searchTerm);
-    searchResults.innerHTML = '';
-    console.log(searchTerm);
+    const urls = await getSearchResults(searchTerm);
+    const html = urls.reduce((currentString,searchResult)=> {
+        return currentString + makeSearchResult(searchResult);
+    }, '');
+    searchResults.innerHTML = html;
 }
