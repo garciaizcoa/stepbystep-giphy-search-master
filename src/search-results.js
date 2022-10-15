@@ -27,7 +27,7 @@ import getSearchResults from "./get-search-results";
        // <img src="placeholder.png" />
        // </a>
 const makeSearchResult = searchResult => `
-<a href="#">
+<a href="${searchResult.full}">
     <img src="${searchResult.thumb}" />
 </a>
 `;
@@ -39,4 +39,15 @@ export const handleSearch = async searchTerm => {
         return currentString + makeSearchResult(searchResult);
     }, '');
     searchResults.innerHTML = html;
+}
+
+export const resultClicked = handler => {
+    document.getElementById('search-results').addEventListener('click', (e) =>{
+       e.preventDefault();
+        const target= e.target;
+        if(target.tagName === 'IMG') {
+            handler(target.parentElement.href);
+
+        }
+    })
 }
